@@ -74,7 +74,15 @@ namespace StampingStationSim
                     currentState = State.Idle;
                     break;
                 case State.Fault:
-                    // TODO
+                    outputs.extendValve = false;
+                    outputs.retractValve = false;
+
+                    if (inputs.resetButton)
+                    {
+                        outputs.retractValve = true;
+                        currentState = State.Retracting;
+                        movementTimer.Restart();
+                    }
                     break;
             }
         }
