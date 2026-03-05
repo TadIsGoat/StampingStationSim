@@ -22,9 +22,7 @@ namespace StampingStationSim
         private int dwellTime = 500; //ms
         private Stopwatch movementTimer = new Stopwatch();
         private int maxMovementTime = 2000;
-        private Outputs outputs = new Outputs();
-        private Inputs inputs = new Inputs();
-        public void Update()
+        public void Update(Inputs inputs, Outputs outputs)
         {
             switch (currentState)
             {
