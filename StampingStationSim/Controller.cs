@@ -22,6 +22,8 @@ namespace StampingStationSim
         private int dwellTime = 500; //ms
         private Stopwatch movementTimer = new Stopwatch();
         private int maxMovementTime = 2000;
+        private Outputs outputs = new Outputs();
+        private Inputs inputs = new Inputs();
         public void Update()
         {
             switch (currentState)
@@ -40,7 +42,7 @@ namespace StampingStationSim
                     {
                         currentState = State.Fault;
                     }
-                    else if (inputs.StampExtendedSensor)
+                    else if (inputs.stampExtendedSensor)
                     {
                         outputs.extendValve = false;
                         currentState = State.Extended;
@@ -61,7 +63,7 @@ namespace StampingStationSim
                     {
                         currentState = State.Fault; 
                     }
-                    else if (inputs.StampRetractedSensor)
+                    else if (inputs.stampRetractedSensor)
                     {
                         outputs.retractValve = false;
                         currentState = State.Retracted;
