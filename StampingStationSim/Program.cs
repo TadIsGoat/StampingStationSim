@@ -16,7 +16,7 @@ while (true)
 {
     timer.Restart();
 
-    inputs.ReadInputs(stamperSimulator.stampExtendedSimulator, stamperSimulator.stampRetractedSimulator);
+    inputs.ReadInputs(stamperSimulator.isExtended, stamperSimulator.isRetracted);
     controller.Update(inputs, outputs);
     outputs.InterlockSafety();
     stamperSimulator.Update(outputs);
