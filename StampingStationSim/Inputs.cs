@@ -11,12 +11,16 @@ namespace StampingStationSim
         public bool partPresentSensor { get; private set; }
         public bool stampExtendedSensor {  get; private set; }
         public bool stampRetractedSensor { get; private set; }
+        public bool clampExtendedSensor { get; private set; }
+        public bool clampRetractedSensor { get; private set; }
 
-        public void ReadInputs(bool stampExtended, bool stampRetracted)
+        public void ReadInputs(bool stampExtended, bool stampRetracted, bool clampExtended, bool clampRetracted)
         {
             ResetAll();
             stampExtendedSensor = stampExtended;
             stampRetractedSensor = stampRetracted;
+            clampExtendedSensor = clampExtended;
+            clampRetractedSensor = clampRetracted;
             if (Console.KeyAvailable)
             {
                 ConsoleKey key = Console.ReadKey().Key;
@@ -41,6 +45,8 @@ namespace StampingStationSim
             resetButton = false;
             stampExtendedSensor = false;
             stampRetractedSensor = false;
+            clampExtendedSensor = false;
+            clampRetractedSensor = false;
         }
     }
 }

@@ -5,7 +5,7 @@ using System.Text;
 
 namespace StampingStationSim
 {
-    internal class StamperSimulator
+    internal class PneumaticCylinder
     {
         public bool isExtended { get; private set; } = false;
         public bool isRetracted { get; private set; } = true;
@@ -20,25 +20,25 @@ namespace StampingStationSim
         private Random random = new Random();
         
 
-        public void Update(Outputs outputs)
+        public void Update(bool extendCommand, bool retractCommand)
         {
-            if (!outputs.extendValve)
+            if (!extendCommand)
             {
                 isExtending = false;
             }
-            if (!outputs.retractValve)
+            if (!retractCommand)
             {
                 isRetracting = false;
             }
 
-            if (outputs.extendValve && !isExtended && !isExtending)
+            if (extendCommand && !isExtended && !isExtending)
             {
                 travelTimer.Restart();
                 travelTime = random.Next(shortestTime, longestTime);
                 isRetracted = false;
                 isExtending = true;
             }
-            else if (outputs.retractValve && !isRetracted && !isRetracting)
+            else if (retractCommand && !isRetracted && !isRetracting)
             {
                 travelTimer.Restart();
                 travelTime = random.Next(shortestTime, longestTime);

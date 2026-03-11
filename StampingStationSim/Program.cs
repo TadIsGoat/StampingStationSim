@@ -6,7 +6,8 @@ using System.Runtime.CompilerServices;
 Inputs inputs = new Inputs();
 Outputs outputs = new Outputs();
 Controller controller = new Controller();
-StamperSimulator stamperSimulator= new StamperSimulator();
+PneumaticCylinder stamperSimulator = new PneumaticCylinder();
+PneumaticCylinder clamperSimulator = new PneumaticCylinder();
 
 Stopwatch timer = new Stopwatch();
 int loopTime = 100;//ms //in real world probably less but we dont care here
@@ -16,12 +17,17 @@ while (true)
 {
     timer.Restart();
 
-    inputs.ReadInputs(stamperSimulator.isExtended, stamperSimulator.isRetracted);
+    inputs.ReadInputs(stamperSimulator.isExtended, stamperSimulator.isRetracted, clamperSimulator.isExtended, clamperSimulator.isRetracted);
     controller.Update(inputs, outputs);
     outputs.InterlockSafety();
-    stamperSimulator.Update(outputs);
+    stamperSimulator.Update(outputs.extendStamp, outputs.retractStamp);
+    clamperSimulator.Update(outputs.extendClamp, outputs.retractClamp);
 
     timer.Stop();
-    Thread.Sleep(loopTime - (int)timer.ElapsedMilliseconds);
+    int remainingTime = loopTime - (int)timer.ElapsedMilliseconds;
+    if (remainingTime > 0)
+    {
+        Thread.Sleep(remainingTime);
+    }
     cycleCounter++;
 }

@@ -7,23 +7,35 @@ namespace StampingStationSim
     internal class Outputs
     {
         public bool activeLight;
-        public bool extendValve;
-        public bool retractValve;
+
+        public bool extendStamp;
+        public bool retractStamp;
+
+        public bool extendClamp;
+        public bool retractClamp;
 
         public void InterlockSafety()
         {
-            if (extendValve && retractValve)
+            if (extendStamp && retractStamp)
             {
-                extendValve = false;
-                retractValve = false;
+                extendStamp = false;
+                retractStamp = false;
+            }
+
+            if (extendClamp && retractClamp)
+            {
+                extendClamp = false;
+                retractClamp = false;
             }
         }
 
         public void ResetAll()
         {
             activeLight = false;
-            extendValve = false;
-            retractValve = false;
+            extendStamp = false;
+            retractStamp = false;
+            extendClamp = false;
+            retractClamp = false;
         }
     }
 }
