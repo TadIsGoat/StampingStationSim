@@ -1,0 +1,23 @@
+{
+  "runtimeTarget": {
+    "name": ".NETCoreApp,Version=v10.0",
+    "signature": ""
+  },
+  "compilationOptions": {},
+  "targets": {
+    ".NETCoreApp,Version=v10.0": {
+      "StampingStationSim/1.0.0": {
+        "runtime": {
+          "StampingStationSim.dll": {}
+        }
+      }
+    }
+  },
+  "libraries": {
+    "StampingStationSim/1.0.0": {
+      "type": "project",
+      "serviceable": false,
+      "sha512": ""
+    }
+  }
+}

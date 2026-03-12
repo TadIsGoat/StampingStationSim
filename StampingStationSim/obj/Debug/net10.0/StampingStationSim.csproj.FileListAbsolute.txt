@@ -1,0 +1,15 @@
+C:\Users\tadea\Desktop\IdoC#\StampingStationSim\StampingStationSim\bin\Debug\net10.0\StampingStationSim.exe
+C:\Users\tadea\Desktop\IdoC#\StampingStationSim\StampingStationSim\bin\Debug\net10.0\StampingStationSim.deps.json
+C:\Users\tadea\Desktop\IdoC#\StampingStationSim\StampingStationSim\bin\Debug\net10.0\StampingStationSim.runtimeconfig.json
+C:\Users\tadea\Desktop\IdoC#\StampingStationSim\StampingStationSim\bin\Debug\net10.0\StampingStationSim.dll
+C:\Users\tadea\Desktop\IdoC#\StampingStationSim\StampingStationSim\bin\Debug\net10.0\StampingStationSim.pdb
+C:\Users\tadea\Desktop\IdoC#\StampingStationSim\StampingStationSim\obj\Debug\net10.0\StampingStationSim.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\tadea\Desktop\IdoC#\StampingStationSim\StampingStationSim\obj\Debug\net10.0\StampingStationSim.AssemblyInfoInputs.cache
+C:\Users\tadea\Desktop\IdoC#\StampingStationSim\StampingStationSim\obj\Debug\net10.0\StampingStationSim.AssemblyInfo.cs
+C:\Users\tadea\Desktop\IdoC#\StampingStationSim\StampingStationSim\obj\Debug\net10.0\StampingStationSim.csproj.CoreCompileInputs.cache
+C:\Users\tadea\Desktop\IdoC#\StampingStationSim\StampingStationSim\obj\Debug\net10.0\StampingStationSim.sourcelink.json
+C:\Users\tadea\Desktop\IdoC#\StampingStationSim\StampingStationSim\obj\Debug\net10.0\StampingStationSim.dll
+C:\Users\tadea\Desktop\IdoC#\StampingStationSim\StampingStationSim\obj\Debug\net10.0\refint\StampingStationSim.dll
+C:\Users\tadea\Desktop\IdoC#\StampingStationSim\StampingStationSim\obj\Debug\net10.0\StampingStationSim.pdb
+C:\Users\tadea\Desktop\IdoC#\StampingStationSim\StampingStationSim\obj\Debug\net10.0\StampingStationSim.genruntimeconfig.cache
+C:\Users\tadea\Desktop\IdoC#\StampingStationSim\StampingStationSim\obj\Debug\net10.0\ref\StampingStationSim.dll
