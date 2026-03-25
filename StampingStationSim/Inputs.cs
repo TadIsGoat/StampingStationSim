@@ -77,7 +77,7 @@ namespace StampingStationSim
             startButton = false;
             resetButton = false;
 
-            //partPresentSensor not here cuy its a switch
+            //partPresentSensor not here cuz its a switch
 
             stampExtendedSensor = false;
             stampRetractedSensor = false;

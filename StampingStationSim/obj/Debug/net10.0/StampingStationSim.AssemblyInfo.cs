@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("StampingStationSim")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+742ebbb454a479aaf5e3bab50af9a7d70be220fc")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+555c715849bcbe61079ed677be8538ea5860c649")]
 [assembly: System.Reflection.AssemblyProductAttribute("StampingStationSim")]
 [assembly: System.Reflection.AssemblyTitleAttribute("StampingStationSim")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
