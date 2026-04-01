@@ -25,7 +25,7 @@ namespace StampingStationSim
 
     /// <summary>
     /// Provides the control logic for the station based on inputs and outputs, for both manual and auto mode.
-    /// Follows the A+ B+ A- B- standard
+    /// Follows the A+ B+ B- A- standard
     /// </summary>
     internal class Controller
     {
@@ -53,7 +53,6 @@ namespace StampingStationSim
                 outputs.retractStamp = inputs.stampRetractButton && !inputs.stampExtendButton;
 
                 currentState = State.Fault; //to force the operator to press reset after exiting manual mode
-                alarmManager.AddAlarm("WARNING: manual mode exited");
             }
             else
             {

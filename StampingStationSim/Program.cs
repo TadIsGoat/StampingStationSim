@@ -12,26 +12,34 @@ Stopwatch timer = new Stopwatch();
 int loopTime = 100; //ms //in real world probably less but we dont care here
 int cycleCounter = 0;
 
-Console.CursorVisible = false; // Hides the blinking cursor for a cleaner look
+Console.CursorVisible = false; // hides the blinking cursor for a cleaner look
 
+/// <summary>
+/// The main loop running the machine + simulation
+/// </summary>
 while (true)
 {
     timer.Restart();
-
+    
+    //machine
     inputs.ReadInputs(stamperSimulator.isExtended, stamperSimulator.isRetracted, clamperSimulator.isExtended, clamperSimulator.isRetracted);
     controller.Update(inputs, outputs, alarmManager);
     outputs.InterlockSafety();
+
+    //simulation
     stamperSimulator.Update(outputs.extendStamp, outputs.retractStamp);
     clamperSimulator.Update(outputs.extendClamp, outputs.retractClamp);
 
     PrintUI();
 
+    //loop control
     timer.Stop();
     int remainingTime = loopTime - (int)timer.ElapsedMilliseconds;
     if (remainingTime > 0)
     {
         Thread.Sleep(remainingTime);
     }
+
     cycleCounter++;
 }
 

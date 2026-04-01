@@ -4,13 +4,16 @@ using System.Text;
 
 namespace StampingStationSim
 {
+    /// <summary>
+    /// Manages recent alarms.
+    /// </summary>
     internal class AlarmManager
     {
         private List<string> alarms = new List<string>();
 
         public void AddAlarm(string msg)
         {
-            alarms.Insert(0, $"({DateTime.Now.ToString("HH:mm:ss")})");
+            alarms.Insert(0, $"({DateTime.Now.ToString("HH:mm:ss")} - {msg})");
 
             if (alarms.Count > 5)
             {

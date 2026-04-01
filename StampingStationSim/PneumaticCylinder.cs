@@ -5,6 +5,12 @@ using System.Text;
 
 namespace StampingStationSim
 {
+    /// <summary>
+    /// Simulates a pneumatic cylinder that can be extended or retracted based on control commands. Also simulates failures via random movement times
+    /// </summary>
+    /// <remarks>This class models the state and control logic for a pneumatic cylinder, tracking whether it
+    /// is extended or retracted. It is intended for internal use within the application and is not
+    /// thread-safe.</remarks>
     internal class PneumaticCylinder
     {
         public bool isExtended { get; private set; } = false;
@@ -19,7 +25,11 @@ namespace StampingStationSim
         const int longestTime = 2100;
         private Random random = new Random();
         
-
+        /// <summary>
+        /// Updates the state of the cylinder based on the commands it gets.
+        /// </summary>
+        /// <param name="extendCommand">The command to extend. Only one of extend/retract can be true</param>
+        /// <param name="retractCommand">The command to retract. Only one of extend/retract can be true</param>
         public void Update(bool extendCommand, bool retractCommand)
         {
             if (!extendCommand)

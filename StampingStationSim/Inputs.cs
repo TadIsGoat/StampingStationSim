@@ -4,6 +4,9 @@ using System.Text;
 
 namespace StampingStationSim
 {
+    /// <summary>
+    /// Represents the buttons, switches and sensors of a stamping station
+    /// </summary>
     internal class Inputs
     {
         public bool startButton { get; private set; }
@@ -23,6 +26,13 @@ namespace StampingStationSim
         public bool stampExtendButton { get; private set; }
         public bool stampRetractButton { get; private set; }
 
+        /// <summary>
+        /// Handles all the inputs. Sensors of all simulated valves are requiered and cannot be null.
+        /// </summary>
+        /// <param name="stampExtended">Sensor checking if the stamp is extended</param>
+        /// <param name="stampRetracted">Sensor checking if the stamp is retracted</param>
+        /// <param name="clampExtended">Sensor checking if the clamp is extended</param>
+        /// <param name="clampRetracted">Sensor checking if the clamp is retracted</param>
         public void ReadInputs(bool stampExtended, bool stampRetracted, bool clampExtended, bool clampRetracted)
         {
             ResetAll();
@@ -72,6 +82,9 @@ namespace StampingStationSim
             }
         }
 
+        /// <summary>
+        /// Resets (almost) all buttons and sensors to their default state. The switches are left out.
+        /// </summary>
         public void ResetAll()
         {
             startButton = false;
