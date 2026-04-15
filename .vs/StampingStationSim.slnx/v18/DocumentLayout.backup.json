@@ -3,28 +3,36 @@
   "WorkspaceRootPath": "C:\\Users\\tadea\\Desktop\\IdoC#\\StampingStationSim\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{074784A9-82F5-C0F1-13E8-365C0B341439}|StampingStationSim\\StampingStationSim.csproj|c:\\users\\tadea\\desktop\\idoc#\\stampingstationsim\\stampingstationsim\\controller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{074784A9-82F5-C0F1-13E8-365C0B341439}|StampingStationSim\\StampingStationSim.csproj|solutionrelative:stampingstationsim\\controller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{074784A9-82F5-C0F1-13E8-365C0B341439}|StampingStationSim\\StampingStationSim.csproj|c:\\users\\tadea\\desktop\\idoc#\\stampingstationsim\\stampingstationsim\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{074784A9-82F5-C0F1-13E8-365C0B341439}|StampingStationSim\\StampingStationSim.csproj|solutionrelative:stampingstationsim\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{074784A9-82F5-C0F1-13E8-365C0B341439}|StampingStationSim\\StampingStationSim.csproj|c:\\users\\tadea\\desktop\\idoc#\\stampingstationsim\\stampingstationsim\\alarmmanager.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{074784A9-82F5-C0F1-13E8-365C0B341439}|StampingStationSim\\StampingStationSim.csproj|solutionrelative:stampingstationsim\\alarmmanager.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{074784A9-82F5-C0F1-13E8-365C0B341439}|StampingStationSim\\StampingStationSim.csproj|c:\\users\\tadea\\desktop\\idoc#\\stampingstationsim\\stampingstationsim\\outputs.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{074784A9-82F5-C0F1-13E8-365C0B341439}|StampingStationSim\\StampingStationSim.csproj|solutionrelative:stampingstationsim\\outputs.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{074784A9-82F5-C0F1-13E8-365C0B341439}|StampingStationSim\\StampingStationSim.csproj|c:\\users\\tadea\\desktop\\idoc#\\stampingstationsim\\stampingstationsim\\alarmrecord.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{074784A9-82F5-C0F1-13E8-365C0B341439}|StampingStationSim\\StampingStationSim.csproj|solutionrelative:stampingstationsim\\alarmrecord.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{074784A9-82F5-C0F1-13E8-365C0B341439}|StampingStationSim\\StampingStationSim.csproj|c:\\users\\tadea\\desktop\\idoc#\\stampingstationsim\\stampingstationsim\\appdbcontext.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{074784A9-82F5-C0F1-13E8-365C0B341439}|StampingStationSim\\StampingStationSim.csproj|solutionrelative:stampingstationsim\\appdbcontext.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{074784A9-82F5-C0F1-13E8-365C0B341439}|StampingStationSim\\StampingStationSim.csproj|c:\\users\\tadea\\desktop\\idoc#\\stampingstationsim\\stampingstationsim\\controller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{074784A9-82F5-C0F1-13E8-365C0B341439}|StampingStationSim\\StampingStationSim.csproj|solutionrelative:stampingstationsim\\controller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{074784A9-82F5-C0F1-13E8-365C0B341439}|StampingStationSim\\StampingStationSim.csproj|c:\\users\\tadea\\desktop\\idoc#\\stampingstationsim\\stampingstationsim\\pneumaticcylinder.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{074784A9-82F5-C0F1-13E8-365C0B341439}|StampingStationSim\\StampingStationSim.csproj|solutionrelative:stampingstationsim\\pneumaticcylinder.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{074784A9-82F5-C0F1-13E8-365C0B341439}|StampingStationSim\\StampingStationSim.csproj|c:\\users\\tadea\\desktop\\idoc#\\stampingstationsim\\stampingstationsim\\inputs.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{074784A9-82F5-C0F1-13E8-365C0B341439}|StampingStationSim\\StampingStationSim.csproj|solutionrelative:stampingstationsim\\inputs.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{074784A9-82F5-C0F1-13E8-365C0B341439}|StampingStationSim\\StampingStationSim.csproj|c:\\users\\tadea\\desktop\\idoc#\\stampingstationsim\\stampingstationsim\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{074784A9-82F5-C0F1-13E8-365C0B341439}|StampingStationSim\\StampingStationSim.csproj|solutionrelative:stampingstationsim\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{074784A9-82F5-C0F1-13E8-365C0B341439}|StampingStationSim\\StampingStationSim.csproj|c:\\users\\tadea\\desktop\\idoc#\\stampingstationsim\\stampingstationsim\\pneumaticcylinder.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{074784A9-82F5-C0F1-13E8-365C0B341439}|StampingStationSim\\StampingStationSim.csproj|solutionrelative:stampingstationsim\\pneumaticcylinder.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{074784A9-82F5-C0F1-13E8-365C0B341439}|StampingStationSim\\StampingStationSim.csproj|c:\\users\\tadea\\desktop\\idoc#\\stampingstationsim\\stampingstationsim\\outputs.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{074784A9-82F5-C0F1-13E8-365C0B341439}|StampingStationSim\\StampingStationSim.csproj|solutionrelative:stampingstationsim\\outputs.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     }
   ],
   "DocumentGroupContainers": [
@@ -34,17 +42,17 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 1,
+          "SelectedChildIndex": 0,
           "Children": [
             {
               "$type": "Document",
-              "DocumentIndex": 4,
+              "DocumentIndex": 0,
               "Title": "Program.cs",
               "DocumentMoniker": "C:\\Users\\tadea\\Desktop\\IdoC#\\StampingStationSim\\StampingStationSim\\Program.cs",
               "RelativeDocumentMoniker": "StampingStationSim\\Program.cs",
               "ToolTip": "C:\\Users\\tadea\\Desktop\\IdoC#\\StampingStationSim\\StampingStationSim\\Program.cs",
               "RelativeToolTip": "StampingStationSim\\Program.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAABIAAAAUAAAAAAAAAA==",
+              "ViewState": "AgIAAFIAAAAAAAAAAAAiwGoAAAAhAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2026-03-04T21:22:37.907Z",
               "IsPinned": true,
@@ -52,55 +60,39 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 0,
+              "DocumentIndex": 4,
               "Title": "Controller.cs",
               "DocumentMoniker": "C:\\Users\\tadea\\Desktop\\IdoC#\\StampingStationSim\\StampingStationSim\\Controller.cs",
               "RelativeDocumentMoniker": "StampingStationSim\\Controller.cs",
               "ToolTip": "C:\\Users\\tadea\\Desktop\\IdoC#\\StampingStationSim\\StampingStationSim\\Controller.cs",
               "RelativeToolTip": "StampingStationSim\\Controller.cs",
-              "ViewState": "AgIAACEAAAAAAAAAAAAYwDgAAAANAAAAAAAAAA==",
+              "ViewState": "AgIAACcAAAAAAAAAAAAkwCMAAAApAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-03-04T21:29:15.573Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-03-04T21:29:15.573Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 2,
+              "DocumentIndex": 7,
               "Title": "Outputs.cs",
               "DocumentMoniker": "C:\\Users\\tadea\\Desktop\\IdoC#\\StampingStationSim\\StampingStationSim\\Outputs.cs",
               "RelativeDocumentMoniker": "StampingStationSim\\Outputs.cs",
               "ToolTip": "C:\\Users\\tadea\\Desktop\\IdoC#\\StampingStationSim\\StampingStationSim\\Outputs.cs",
               "RelativeToolTip": "StampingStationSim\\Outputs.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAABsAAAAJAAAAAAAAAA==",
+              "ViewState": "AgIAAA0AAAAAAAAAAAAmwBsAAAAJAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-03-05T08:03:28.434Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-03-05T08:03:28.434Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 3,
+              "DocumentIndex": 6,
               "Title": "Inputs.cs",
               "DocumentMoniker": "C:\\Users\\tadea\\Desktop\\IdoC#\\StampingStationSim\\StampingStationSim\\Inputs.cs",
               "RelativeDocumentMoniker": "StampingStationSim\\Inputs.cs",
               "ToolTip": "C:\\Users\\tadea\\Desktop\\IdoC#\\StampingStationSim\\StampingStationSim\\Inputs.cs",
               "RelativeToolTip": "StampingStationSim\\Inputs.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAA8AAAA9AAAAAAAAAA==",
+              "ViewState": "AgIAAD8AAAAAAAAAAAAqwGwAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-03-05T08:04:49.606Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 1,
-              "Title": "AlarmManager.cs",
-              "DocumentMoniker": "C:\\Users\\tadea\\Desktop\\IdoC#\\StampingStationSim\\StampingStationSim\\AlarmManager.cs",
-              "RelativeDocumentMoniker": "StampingStationSim\\AlarmManager.cs",
-              "ToolTip": "C:\\Users\\tadea\\Desktop\\IdoC#\\StampingStationSim\\StampingStationSim\\AlarmManager.cs",
-              "RelativeToolTip": "StampingStationSim\\AlarmManager.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAA4AAAAgAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-03-25T14:11:56.971Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-03-05T08:04:49.606Z"
             },
             {
               "$type": "Document",
@@ -110,9 +102,47 @@
               "RelativeDocumentMoniker": "StampingStationSim\\PneumaticCylinder.cs",
               "ToolTip": "C:\\Users\\tadea\\Desktop\\IdoC#\\StampingStationSim\\StampingStationSim\\PneumaticCylinder.cs",
               "RelativeToolTip": "StampingStationSim\\PneumaticCylinder.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAACoAAAAmAAAAAAAAAA==",
+              "ViewState": "AgIAAAMAAAAAAAAAAAAAACwAAAANAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-03-11T08:50:22.265Z",
+              "WhenOpened": "2026-03-11T08:50:22.265Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "AlarmManager.cs",
+              "DocumentMoniker": "C:\\Users\\tadea\\Desktop\\IdoC#\\StampingStationSim\\StampingStationSim\\AlarmManager.cs",
+              "RelativeDocumentMoniker": "StampingStationSim\\AlarmManager.cs",
+              "ToolTip": "C:\\Users\\tadea\\Desktop\\IdoC#\\StampingStationSim\\StampingStationSim\\AlarmManager.cs",
+              "RelativeToolTip": "StampingStationSim\\AlarmManager.cs",
+              "ViewState": "AgIAABYAAAAAAAAAAAAgwAgAAABcAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-03-25T14:11:56.971Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "AlarmRecord.cs",
+              "DocumentMoniker": "C:\\Users\\tadea\\Desktop\\IdoC#\\StampingStationSim\\StampingStationSim\\AlarmRecord.cs",
+              "RelativeDocumentMoniker": "StampingStationSim\\AlarmRecord.cs",
+              "ToolTip": "C:\\Users\\tadea\\Desktop\\IdoC#\\StampingStationSim\\StampingStationSim\\AlarmRecord.cs",
+              "RelativeToolTip": "StampingStationSim\\AlarmRecord.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAA0AAAA7AAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-04-15T20:44:41.001Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "AppDbContext.cs",
+              "DocumentMoniker": "C:\\Users\\tadea\\Desktop\\IdoC#\\StampingStationSim\\StampingStationSim\\AppDbContext.cs",
+              "RelativeDocumentMoniker": "StampingStationSim\\AppDbContext.cs",
+              "ToolTip": "C:\\Users\\tadea\\Desktop\\IdoC#\\StampingStationSim\\StampingStationSim\\AppDbContext.cs",
+              "RelativeToolTip": "StampingStationSim\\AppDbContext.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABQAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-04-15T20:50:46.32Z",
               "EditorCaption": ""
             }
           ]

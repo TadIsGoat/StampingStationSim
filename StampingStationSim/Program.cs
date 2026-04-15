@@ -1,5 +1,6 @@
 ﻿using StampingStationSim;
 using System.Diagnostics;
+using System.Text;
 
 Inputs inputs = new Inputs();
 Outputs outputs = new Outputs();
@@ -46,6 +47,70 @@ while (true)
 /// <summary>
 /// Completely vibecoded UI cuz idc about visuals here
 /// </summary>
+void PrintUI()
+{
+    // 1. Build the entire screen in memory first
+    StringBuilder ui = new StringBuilder();
+
+    ui.AppendLine("==================================================");
+    ui.AppendLine("            STAMPING STATION SIMULATOR            ");
+    ui.AppendLine("==================================================");
+
+    // --- DASHBOARD ---
+    string mode = inputs.manualModeSwitch ? "MANUAL" : "AUTO  ";
+    ui.AppendLine(" [ SYSTEM STATUS ]");
+    ui.AppendLine($"   Mode:  [{mode}]           Good Parts: [ 0 ]   "); // <-- Reserved for the database!
+    ui.AppendLine($"   State: [{controller.currentState,-15}]  Light:      [{(outputs.activeLight ? "ON " : "OFF")}]   ");
+    ui.AppendLine("--------------------------------------------------");
+
+    // --- SENSORS & HARDWARE ---
+    ui.AppendLine(" [ HARDWARE DIAGNOSTICS ]");
+    ui.AppendLine($"   Part Nest: {(inputs.partPresentSensor ? "[DETECTED]" : "[ EMPTY  ]")}");
+    ui.AppendLine();
+    ui.AppendLine($"   CLAMP: Valve {(outputs.extendClamp ? "[ON ]" : "[OFF]")} | Ext Sensor {(clamperSimulator.isExtended ? "[X]" : "[ ]")} | Ret Sensor {(clamperSimulator.isRetracted ? "[X]" : "[ ]")}");
+    ui.AppendLine($"   STAMP: Valve {(outputs.extendStamp ? "[ON ]" : "[OFF]")} | Ext Sensor {(stamperSimulator.isExtended ? "[X]" : "[ ]")} | Ret Sensor {(stamperSimulator.isRetracted ? "[X]" : "[ ]")}");
+    ui.AppendLine("--------------------------------------------------");
+
+    // --- CONTROLS ---
+    ui.AppendLine(" [ OPERATOR PANEL ]");
+    if (inputs.manualModeSwitch)
+    {
+        ui.AppendLine("   [1/2] Clamp Jog (Down/Up)   [3/4] Stamp Jog    ");
+        ui.AppendLine("   [M] Switch to AUTO          [R] Reset/Home     ");
+    }
+    else
+    {
+        ui.AppendLine("   [S] Start Auto Cycle        [P] Toggle Part    ");
+        ui.AppendLine("   [M] Switch to MANUAL        [R] Reset/Home     ");
+    }
+    ui.AppendLine("==================================================");
+
+    // --- ALARM HISTORIAN ---
+    ui.AppendLine(" [ ALARM HISTORIAN ]");
+    var recentAlarms = alarmManager.GetAlarms();
+    for (int i = 0; i < 5; i++)
+    {
+        if (i < recentAlarms.Count)
+        {
+            // Pad right to exactly 48 chars to overwrite ghost text
+            ui.AppendLine($" {recentAlarms[i].PadRight(48)} ");
+        }
+        else
+        {
+            // Empty space if no alarms exist yet
+            ui.AppendLine("                                                  ");
+        }
+    }
+
+    // 2. Slap the finished string onto the screen in ONE frame!
+    Console.SetCursorPosition(0, 0);
+    Console.Write(ui.ToString());
+}
+
+/*
+
+//old PrintUI()
+
 void PrintUI ()
 {
     Console.SetCursorPosition(0, 0);
@@ -93,3 +158,6 @@ void PrintUI ()
         Console.WriteLine("                                       ");
     }
 }
+
+
+*/
