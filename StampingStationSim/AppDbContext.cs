@@ -11,6 +11,7 @@ namespace StampingStationSim
     internal class AppDbContext : DbContext
     {
         public DbSet<AlarmRecord> alarmHistory { get; set; }
+        public DbSet<ProductionRecord> productionHistory { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {

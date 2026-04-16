@@ -8,6 +8,7 @@ Controller controller = new Controller();
 PneumaticCylinder stamperSimulator = new PneumaticCylinder();
 PneumaticCylinder clamperSimulator = new PneumaticCylinder();
 AlarmManager alarmManager = new AlarmManager();
+ProductionManager productionManager = new ProductionManager();
 
 Stopwatch timer = new Stopwatch();
 int loopTime = 100; //ms //in real world probably less but we dont care here
@@ -24,7 +25,7 @@ while (true)
     
     //machine
     inputs.ReadInputs(stamperSimulator.isExtended, stamperSimulator.isRetracted, clamperSimulator.isExtended, clamperSimulator.isRetracted);
-    controller.Update(inputs, outputs, alarmManager);
+    controller.Update(inputs, outputs, alarmManager, productionManager);
     outputs.InterlockSafety();
 
     //simulation
@@ -59,7 +60,7 @@ void PrintUI()
     // --- DASHBOARD ---
     string mode = inputs.manualModeSwitch ? "MANUAL" : "AUTO  ";
     ui.AppendLine(" [ SYSTEM STATUS ]");
-    ui.AppendLine($"   Mode:  [{mode}]           Good Parts: [ 0 ]   "); // <-- Reserved for the database!
+    ui.AppendLine($"   Mode:  [{mode}]           Good Parts: [ {productionManager.goodPartsCount} ]   "); // <-- Reserved for the database!
     ui.AppendLine($"   State: [{controller.currentState,-15}]  Light:      [{(outputs.activeLight ? "ON " : "OFF")}]   ");
     ui.AppendLine("--------------------------------------------------");
 

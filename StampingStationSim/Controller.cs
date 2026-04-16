@@ -36,6 +36,7 @@ namespace StampingStationSim
         private int clampTime = 200; //ms
         private Stopwatch movementTimer = new Stopwatch();
         private int maxMovementTime = 2000;
+        private Stopwatch cycleTimer = new Stopwatch();
 
         /// <summary>
         /// Updates the states of the machine based on the inputs and sensors.
@@ -43,7 +44,7 @@ namespace StampingStationSim
         /// <param name="inputs">Operators buttons and sensors. Cannot be null</param>
         /// <param name="outputs">Pneumatics of the station. Cannot be null.</param>
         /// <param name="alarmManager">Used to log errors and warning. Cannot be null.</param>
-        public void Update(Inputs inputs, Outputs outputs, AlarmManager alarmManager)
+        public void Update(Inputs inputs, Outputs outputs, AlarmManager alarmManager, ProductionManager productionManager)
         {
             if (inputs.manualModeSwitch) //manual mode
             {
@@ -65,6 +66,7 @@ namespace StampingStationSim
                 if (isWorking && inputs.partPresentSensor == false) //checks if a part hasn't fallen out at a dangerous point
                 {
                     currentState = State.Fault;
+                    alarmManager.AddAlarm("FAULT: part dissapeared");
                 }
 
                 switch (currentState)
@@ -76,6 +78,7 @@ namespace StampingStationSim
                             outputs.extendClamp = true;
                             currentState = State.ClampExtending;
                             movementTimer.Restart();
+                            cycleTimer.Restart();
                         }
                         break;
                     case State.ClampExtending:
@@ -155,10 +158,15 @@ namespace StampingStationSim
                             outputs.retractClamp = false;
                             currentState = State.ClampRetracted;
                             movementTimer.Stop();
+                            cycleTimer.Stop();
                         }
                         break;
                     case State.ClampRetracted:
                         outputs.activeLight = false;
+                        if (movementTimer.ElapsedMilliseconds != 0)
+                        {
+                            productionManager.AddGoodPart((int)cycleTimer.ElapsedMilliseconds);
+                        }
                         outputs.ResetAll();
                         currentState = State.Idle;
                         break;
@@ -167,6 +175,7 @@ namespace StampingStationSim
                         outputs.retractStamp = false;
                         outputs.extendClamp = false;
                         outputs.retractClamp = false;
+                        cycleTimer.Reset();
 
                         if (inputs.resetButton)
                         {

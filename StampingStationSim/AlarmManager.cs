@@ -27,7 +27,6 @@ namespace StampingStationSim
                 {
                     alarms.Add($"[{alarm.TimeStamp.ToString("HH:mm:ss")}] {alarm.Message}");
                 }
-
             }
         }
 
@@ -37,7 +36,7 @@ namespace StampingStationSim
         /// <param name="msg">The alarm message, usually the reason for the alarm.</param>
         public void AddAlarm(string msg)
         {
-            alarms.Insert(0, $"({DateTime.Now.ToString("HH:mm:ss")} - {msg})");
+            alarms.Insert(0, $"({DateTime.Now.ToString("HH:mm:ss")} {msg})");
 
             if (alarms.Count > 5)
             {

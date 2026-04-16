@@ -6,7 +6,7 @@ using System.Text;
 namespace StampingStationSim
 {
     /// <summary>
-    /// Simulates a pneumatic cylinder that can be extended or retracted based on control commands. Also simulates failures via random movement times
+    /// Simulates a pneumatic cylinder that can be extended or retracted based on control commands. Also simulates failures via random movement times.
     /// </summary>
     /// <remarks>This class models the state and control logic for a pneumatic cylinder, tracking whether it
     /// is extended or retracted. It is intended for internal use within the application and is not
@@ -22,7 +22,7 @@ namespace StampingStationSim
         private Stopwatch travelTimer = new Stopwatch();
         int travelTime;
         const int shortestTime = 800;
-        const int longestTime = 2100;
+        const int longestTime = 1100;
         private Random random = new Random();
         
         /// <summary>
