@@ -43,7 +43,8 @@ namespace StampingStationSim
         /// </summary>
         /// <param name="inputs">Operators buttons and sensors. Cannot be null</param>
         /// <param name="outputs">Pneumatics of the station. Cannot be null.</param>
-        /// <param name="alarmManager">Used to log errors and warning. Cannot be null.</param>
+        /// <param name="alarmManager">Used to access the alarm history db table and to log errors. Cannot be null.</param>
+        /// <param name="productionManager">Used to access the production history db table and to log good parts. Cannot be null</param>
         public void Update(Inputs inputs, Outputs outputs, AlarmManager alarmManager, ProductionManager productionManager)
         {
             if (inputs.manualModeSwitch) //manual mode
@@ -163,7 +164,7 @@ namespace StampingStationSim
                         break;
                     case State.ClampRetracted:
                         outputs.activeLight = false;
-                        if (movementTimer.ElapsedMilliseconds != 0)
+                        if (cycleTimer.ElapsedMilliseconds != 0) //we have to check if the timer hasn't been reset due to a fault
                         {
                             productionManager.AddGoodPart((int)cycleTimer.ElapsedMilliseconds);
                         }

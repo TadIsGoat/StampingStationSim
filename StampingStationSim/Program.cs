@@ -12,7 +12,6 @@ ProductionManager productionManager = new ProductionManager();
 
 Stopwatch timer = new Stopwatch();
 int loopTime = 100; //ms //in real world probably less but we dont care here
-int cycleCounter = 0;
 
 Console.CursorVisible = false; // hides the blinking cursor for a cleaner look
 
@@ -41,8 +40,6 @@ while (true)
     {
         Thread.Sleep(remainingTime);
     }
-
-    cycleCounter++;
 }
 
 /// <summary>

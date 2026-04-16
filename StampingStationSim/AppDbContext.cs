@@ -6,7 +6,7 @@ using System.Text;
 namespace StampingStationSim
 {
     /// <summary>
-    /// Bridge between C# and SQLite DB
+    /// Bridge between C# and SQLite DB.
     /// </summary>
     internal class AppDbContext : DbContext
     {
