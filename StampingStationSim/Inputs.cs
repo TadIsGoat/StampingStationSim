@@ -79,6 +79,11 @@ namespace StampingStationSim
                         stampRetractButton = true;
                     }
                 }
+
+                if (key == ConsoleKey.Escape) //irl this isn't here, I am just too lazy
+                {
+                    System.Environment.Exit(0);
+                }
             }
         }
 

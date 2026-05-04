@@ -22,7 +22,7 @@ namespace StampingStationSim
         private Stopwatch travelTimer = new Stopwatch();
         int travelTime;
         const int shortestTime = 800;
-        const int longestTime = 2100;
+        const int longestTime = 1500;
         private Random random = new Random();
         
         /// <summary>
