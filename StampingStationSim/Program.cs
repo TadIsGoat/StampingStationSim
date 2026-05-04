@@ -1,6 +1,7 @@
 ﻿using StampingStationSim;
 using System.Diagnostics;
 using System.Text;
+using System.Timers;
 
 Inputs inputs = new Inputs();
 Outputs outputs = new Outputs();
@@ -10,32 +11,55 @@ PneumaticCylinder clamperSimulator = new PneumaticCylinder();
 AlarmManager alarmManager = new AlarmManager();
 ProductionManager productionManager = new ProductionManager();
 
-Stopwatch timer = new Stopwatch();
-int loopTime = 100; //ms //in real world probably less but we dont care here
-
 Console.CursorVisible = false; // hides the blinking cursor for a cleaner look
 
+
 /// <summary>
-/// The main loop running the machine + simulation
+/// The main loop controlling physics running on a separate thread to avoid being held up by other stuff to stay safe.
 /// </summary>
+Task physics = Task.Run(() =>
+{
+    Stopwatch timer = new Stopwatch();
+    int loopTime = 100; //ms //in real world probably less but we dont care here
+
+    while(true)
+    {
+        timer.Restart();
+
+        //machine
+        controller.Update(inputs, outputs, alarmManager, productionManager);
+        outputs.InterlockSafety();
+
+        //simulation
+        stamperSimulator.Update(outputs.extendStamp, outputs.retractStamp);
+        clamperSimulator.Update(outputs.extendClamp, outputs.retractClamp);
+
+        //loop control
+        timer.Stop();
+        int remainingTime = loopTime - (int)timer.ElapsedMilliseconds;
+        if (remainingTime > 0)
+        {
+            Thread.Sleep(remainingTime);
+        }
+    }
+});
+
+/// <summary>
+/// The secondary loop running on the main thread, isn't so crucial so it's running less often.
+/// </summary>
+Stopwatch uiTimer = new Stopwatch();
+int uiLoopTime = 250; //refreshes 4 times a sec
 while (true)
 {
-    timer.Restart();
-    
-    //machine
+    uiTimer.Restart();
+
+    //input & ui print
     inputs.ReadInputs(stamperSimulator.isExtended, stamperSimulator.isRetracted, clamperSimulator.isExtended, clamperSimulator.isRetracted);
-    controller.Update(inputs, outputs, alarmManager, productionManager);
-    outputs.InterlockSafety();
-
-    //simulation
-    stamperSimulator.Update(outputs.extendStamp, outputs.retractStamp);
-    clamperSimulator.Update(outputs.extendClamp, outputs.retractClamp);
-
     PrintUI();
 
     //loop control
-    timer.Stop();
-    int remainingTime = loopTime - (int)timer.ElapsedMilliseconds;
+    uiTimer.Stop();
+    int remainingTime = uiLoopTime - (int)uiTimer.ElapsedMilliseconds;
     if (remainingTime > 0)
     {
         Thread.Sleep(remainingTime);
