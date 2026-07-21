@@ -10,7 +10,7 @@ namespace StampingStationSim
     /// </summary>
     internal class AlarmManager
     {
-        private List<string> alarms = new List<string>();
+        private List<string> alarms = new List<string>(); //yes we could only have the database to store the alarms but in reality the database is slower than this "cache"
 
         /// <summary>
         /// Initializes a new instance of the AlarmManager class, ensures the database is created and loads the most recent alarm history entries.

@@ -37,6 +37,7 @@ namespace StampingStationSim
         private Stopwatch movementTimer = new Stopwatch();
         private int maxMovementTime = 2000;
         private Stopwatch cycleTimer = new Stopwatch();
+        private bool partComplete = false;
 
         /// <summary>
         /// Updates the states of the machine based on the inputs and sensors.
@@ -47,6 +48,10 @@ namespace StampingStationSim
         /// <param name="productionManager">Used to access the production history db table and to log good parts. Cannot be null</param>
         public void Update(Inputs inputs, Outputs outputs, AlarmManager alarmManager, ProductionManager productionManager)
         {
+            if (!inputs.partPresentSensor)
+            {
+                partComplete = false;
+            }
             if (inputs.manualModeSwitch) //manual mode
             {
                 outputs.extendClamp = inputs.clampExtendButton && !inputs.clampRetractButton;
@@ -58,11 +63,12 @@ namespace StampingStationSim
             }
             else
             {
-                bool isWorking = //if a part falls out during these we are fucked
+                //if a part falls out during these we are fucked
+                bool isWorking = 
                     (currentState == State.ClampExtending ||
-                    currentState == State.ClampExtended ||
-                    currentState == State.StampExtending ||
-                    currentState == State.StampExtended);
+                     currentState == State.ClampExtended  ||
+                     currentState == State.StampExtending ||
+                     currentState == State.StampExtended  );
 
                 if (isWorking && inputs.partPresentSensor == false) //checks if a part hasn't fallen out at a dangerous point
                 {
@@ -73,7 +79,7 @@ namespace StampingStationSim
                 switch (currentState)
                 {
                     case State.Idle: //if we are here, all cylinders are retracted and we are waiting for the operator to press the start button (auto mode)
-                        if (inputs.startButton && inputs.partPresentSensor)
+                        if (inputs.startButton && inputs.partPresentSensor && !partComplete)
                         {
                             outputs.activeLight = true;
                             outputs.extendClamp = true;
@@ -81,7 +87,12 @@ namespace StampingStationSim
                             movementTimer.Restart();
                             cycleTimer.Restart();
                         }
-                        break;
+                        else if (inputs.startButton && inputs.partPresentSensor && partComplete) //if the part hasn't changed don't start the cycle
+                        {
+                            currentState = State.Fault;
+                            alarmManager.AddAlarm("FAULT: part already stamped, replace parts!");
+                        }
+                            break;
                     case State.ClampExtending:
                         if (movementTimer.ElapsedMilliseconds >= maxMovementTime)
                         {
@@ -167,6 +178,7 @@ namespace StampingStationSim
                         if (cycleTimer.ElapsedMilliseconds != 0) //we have to check if the timer hasn't been reset due to a fault
                         {
                             productionManager.AddGoodPart((int)cycleTimer.ElapsedMilliseconds);
+                            partComplete = true;
                         }
                         outputs.ResetAll();
                         currentState = State.Idle;
