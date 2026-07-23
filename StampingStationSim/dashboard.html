@@ -1,0 +1,213 @@
+<!--mostly vibecoded cuz fronted is booooriiiiing-->
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Stamping Station SCADA</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #1e1e1e;
+            color: #ffffff;
+            text-align: center;
+            padding: 40px;
+        }
+
+        .dashboard {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            flex-wrap: wrap;
+            margin-bottom: 30px;
+        }
+
+        .card {
+            background: #2d2d30;
+            padding: 25px;
+            border-radius: 12px;
+            width: 280px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.3);
+        }
+
+        h1 {
+            color: #007acc;
+        }
+
+        h2 {
+            font-size: 20px;
+            color: #aaaaaa;
+            margin-top: 0;
+        }
+
+        .data-value {
+            font-size: 48px;
+            font-weight: bold;
+            margin: 10px 0;
+        }
+
+        .status-ok {
+            color: #4CAF50;
+        }
+
+        .status-fault {
+            color: #f44336;
+            animation: blink 1s linear infinite;
+        }
+
+        .btn {
+            padding: 15px 30px;
+            margin: 10px;
+            font-size: 18px;
+            font-weight: bold;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: 0.2s;
+        }
+
+        .btn-start {
+            background-color: #4CAF50;
+            color: white;
+        }
+
+            .btn-start:hover {
+                background-color: #45a049;
+            }
+
+        .btn-reset {
+            background-color: #3678f4;
+            color: white;
+        }
+
+            .btn-reset:hover {
+                background-color: #1f52be;
+            }
+
+        .btn-estop {
+            background-color: #f44336;
+            color: white;
+        }
+
+            .btn-estop:hover {
+                background-color: #da190b;
+            }
+        
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 30px auto 0 auto;
+        }
+        th, td {
+            border: 1px solid #444;
+            padding: 10px;
+            text-align: left;
+        }
+        th {
+            background-color: #333;
+            color: #aaaaaa;
+        }
+        .alarm-row {
+            color: #ff9800; /* Warning orange */
+            font-family: monospace;
+        }
+
+        @keyframes blink {
+            50% {
+                opacity: 0;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <h1>🏭 Factory Telemetry HMI</h1>
+
+    <div class="dashboard">
+        <div class="card">
+            <h2>Machine State</h2>
+            <div id="state-display" class="data-value status-ok">Loading...</div>
+            <p>Mode: <span id="mode-display" style="font-weight: bold;">-</span></p>
+        </div>
+
+        <div class="card">
+            <h2>Lifetime Production</h2>
+            <div id="parts-display" class="data-value">0</div>
+            <p>Good Parts Stamped</p>
+        </div>
+    </div>
+
+    <!-- Ensure these endpoints match the ones you created in C# -->
+    <button class="btn btn-start" onclick="sendCommand('start')">▶ START CYCLE</button>
+    <button class="btn btn-reset" onclick="sendCommand('reset')">↻ RESET FAULT</button>
+    <button class="btn btn-estop" onclick="sendCommand('estop')">🛑 EMERGENCY STOP</button>
+
+    <div class="card" style="width: 100%; max-width: 600px;">
+        <h2>Recent Alarms</h2>
+        <table>
+            <thead>
+                <tr>
+                    <th>Timestamp & Message</th>
+                </tr>
+            </thead>
+            <tbody id="alarms-tbody">
+                <tr><td style="color: #aaaaaa; text-align: center;">Loading...</td></tr>
+            </tbody>
+        </table>
+    </div>
+
+    <script>
+        // 1. Polling Loop: Fetch data from C# every 500ms
+        setInterval(async () => {
+        try {
+        // Fetch status
+        let statusResponse = await fetch('/api/status');
+        let statusData = await statusResponse.json();
+
+        // Fetch production
+        let partsResponse = await fetch('/api/production');
+        let partsData = await partsResponse.json();
+
+        // Fetch alarms
+        let alarmsResponse = await fetch('/api/alarms');
+        let alarmsData = await alarmsResponse.json();
+
+        // Update Alarm Table
+        let alarmsBody = document.getElementById('alarms-tbody');
+        alarmsBody.innerHTML = ''; // Clear old rows
+
+        if (alarmsData.length === 0) {
+            alarmsBody.innerHTML = '<tr><td style="color: #aaaaaa; text-align: center;">No recent alarms</td></tr>';
+        } else {
+            alarmsData.forEach(alarm => {
+                alarmsBody.innerHTML += `<tr><td class="alarm-row">${alarm}</td></tr>`;
+            });
+        }
+
+        // Update the DOM
+        let stateEl = document.getElementById('state-display');
+        stateEl.innerText = statusData.state;
+
+        // Turn the text red and blinking if there is a fault
+        if (statusData.state === 'Fault') {
+        stateEl.className = 'data-value status-fault';
+        } else {
+        stateEl.className = 'data-value status-ok';
+        }
+
+        document.getElementById('mode-display').innerText = statusData.mode;
+        document.getElementById('parts-display').innerText = partsData.totalGoodParts;
+        } catch (error) {
+        console.error("Cannot connect to machine API", error);
+        }
+        }, 500);
+
+        // 2. Control Function: Send a POST request to C# when a button is clicked
+        async function sendCommand(command) {
+        await fetch('/api/control/' + command, { method: 'POST' });
+        }
+    </script>
+
+</body>
+</html>

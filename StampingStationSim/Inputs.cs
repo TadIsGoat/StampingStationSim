@@ -9,8 +9,9 @@ namespace StampingStationSim
     /// </summary>
     internal class Inputs
     {
-        public bool startButton { get; private set; }
-        public bool resetButton { get; private set; }
+        public bool startButton { get; set; }
+        public bool resetButton { get; set; }
+        public bool emergencyStopButton { get; set; }
 
         public bool partPresentSensor { get; private set; }
 
@@ -50,6 +51,10 @@ namespace StampingStationSim
                 else if (key == ConsoleKey.R)
                 {
                     resetButton = true;
+                }
+                else if (key == ConsoleKey.E)
+                {
+                    emergencyStopButton = true;
                 }
                 else if (key == ConsoleKey.P)
                 {
@@ -94,6 +99,7 @@ namespace StampingStationSim
         {
             startButton = false;
             resetButton = false;
+            emergencyStopButton = false;
 
             //partPresentSensor not here cuz its a switch
 

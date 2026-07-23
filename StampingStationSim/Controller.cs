@@ -48,6 +48,11 @@ namespace StampingStationSim
         /// <param name="productionManager">Used to access the production history db table and to log good parts. Cannot be null</param>
         public void Update(Inputs inputs, Outputs outputs, AlarmManager alarmManager, ProductionManager productionManager)
         {
+            if (inputs.emergencyStopButton && currentState != State.Fault)
+            {
+                currentState = State.Fault;
+                alarmManager.AddAlarm("FAULT: emergency");
+            }
             if (!inputs.partPresentSensor)
             {
                 partComplete = false;
@@ -60,6 +65,7 @@ namespace StampingStationSim
                 outputs.retractStamp = inputs.stampRetractButton && !inputs.stampExtendButton;
 
                 currentState = State.Fault; //to force the operator to press reset after exiting manual mode
+                alarmManager.AddAlarm("WARNING: press reset");
             }
             else
             {
@@ -69,7 +75,6 @@ namespace StampingStationSim
                      currentState == State.ClampExtended  ||
                      currentState == State.StampExtending ||
                      currentState == State.StampExtended  );
-
                 if (isWorking && inputs.partPresentSensor == false) //checks if a part hasn't fallen out at a dangerous point
                 {
                     currentState = State.Fault;
@@ -193,7 +198,6 @@ namespace StampingStationSim
                         if (inputs.resetButton)
                         {
                             outputs.retractStamp = true;
-                            alarmManager.ClearAlarms();
 
                             currentState = State.StampRetracting;
                             movementTimer.Restart();

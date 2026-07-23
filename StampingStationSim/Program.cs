@@ -1,7 +1,6 @@
 ﻿using StampingStationSim;
 using System.Diagnostics;
 using System.Text;
-using System.Timers;
 
 Inputs inputs = new Inputs();
 Outputs outputs = new Outputs();
@@ -11,8 +10,88 @@ PneumaticCylinder clamperSimulator = new PneumaticCylinder();
 AlarmManager alarmManager = new AlarmManager();
 ProductionManager productionManager = new ProductionManager();
 
-Console.CursorVisible = false; // hides the blinking cursor for a cleaner look
+//helpers that "push the buttons instead of the operator"
+bool webStartRequest = false;
+bool webResetRequest = false;
+bool webStopRequest = false;
 
+#region THREAD C (API stuff)
+var builder = WebApplication.CreateBuilder(args);
+builder.Logging.ClearProviders(); //silents all the logs that the API is sending to the console
+var app = builder.Build();
+
+//emergency stop button
+app.MapPost("/api/control/estop", () =>
+{
+    webStopRequest = true;
+    return Results.Ok(new { Message = "Remote emergency stop command received" });
+});
+
+//reset button
+app.MapPost("/api/control/reset", () =>
+{
+    webResetRequest = true;
+    return Results.Ok(new { Message = "Remote reset command received" });
+});
+
+//start button
+app.MapPost("/api/control/start", () =>
+{
+    webStartRequest = true;
+    return Results.Ok(new { Message = "Remote start command received" });
+});
+
+//parts done count
+app.MapGet("/api/production", () =>
+{
+    using (var db = new AppDbContext())
+    {
+        int totalParts = db.productionHistory.Count(); //counts the good part logs
+        return Results.Ok(new
+        {
+            TotalGoodParts = totalParts,
+            Message = "Data pulled live from stamping station"
+        });
+    }
+});
+
+//alarm history
+app.MapGet("/api/alarms", () =>
+{
+    using (var db = new AppDbContext())
+    {
+        var recentAlarms = alarmManager.GetAlarms();
+        return Results.Ok(recentAlarms);
+    }
+});
+
+//current state
+app.MapGet("/api/status", () =>
+{
+    using (var db = new AppDbContext())
+    {
+        return Results.Ok(new
+        {
+            State = controller.currentState.ToString(),
+            Mode = inputs.manualModeSwitch ? "MANUAL" : "AUTO",
+            PartPresent = inputs.partPresentSensor,
+            WarningLight = outputs.activeLight
+        });
+    }
+});
+
+//HMI panel
+app.MapGet("/", () =>
+{
+    string htmlContent = File.ReadAllText("dashboard.html");
+    return Results.Content(htmlContent, "text/html");
+});
+
+app.RunAsync("http://localhost:5000"); //run async without awaiting anything to avoid holding back the machine
+
+#endregion
+
+Console.CursorVisible = false; // hides the blinking cursor for a cleaner look
 
 /// <summary>
 /// The main loop controlling physics running on a separate thread to avoid being held up by other stuff to stay safe.
@@ -55,6 +134,15 @@ while (true)
 
     //input & ui print
     inputs.ReadInputs(stamperSimulator.isExtended, stamperSimulator.isRetracted, clamperSimulator.isExtended, clamperSimulator.isRetracted);
+    if (webStopRequest || webStartRequest || webResetRequest) //check what the web requested and do it instead of the operator
+    {
+        inputs.emergencyStopButton = webStopRequest;
+        webStopRequest = false;
+        inputs.startButton = webStartRequest;
+        webStartRequest = false;
+        inputs.resetButton = webResetRequest;
+        webResetRequest = false;
+    }
     PrintUI();
 
     //loop control
@@ -104,6 +192,7 @@ void PrintUI()
     {
         ui.AppendLine("   [S] Start Auto Cycle        [P] Toggle Part    ");
         ui.AppendLine("   [M] Switch to MANUAL        [R] Reset/Home     ");
+        ui.AppendLine("   [E] Emergency Stop                             ");
     }
     ui.AppendLine("==================================================");
 
