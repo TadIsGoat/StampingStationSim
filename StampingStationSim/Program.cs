@@ -14,6 +14,7 @@ ProductionManager productionManager = new ProductionManager();
 bool webStartRequest = false;
 bool webResetRequest = false;
 bool webStopRequest = false;
+bool webClearAlarmsRequest = false;
 
 #region THREAD C (API stuff)
 var builder = WebApplication.CreateBuilder(args);
@@ -41,15 +42,27 @@ app.MapPost("/api/control/start", () =>
     return Results.Ok(new { Message = "Remote start command received" });
 });
 
+//clear alarms button
+app.MapPost("/api/control/clearalarms", () =>
+{
+    webClearAlarmsRequest = true;
+    return Results.Ok(new { Message = "Clear alarms command received" });
+});
+
+
 //parts done count
 app.MapGet("/api/production", () =>
 {
     using (var db = new AppDbContext())
     {
         int totalParts = db.productionHistory.Count(); //counts the good part logs
+        var newestRecord = db.productionHistory.OrderByDescending(p => p.TimeStamp).FirstOrDefault();
+        int lastTime = newestRecord != null ? newestRecord.CycleTimeMs : 0;
+
         return Results.Ok(new
         {
             TotalGoodParts = totalParts,
+            LastTime = lastTime,
             Message = "Data pulled live from stamping station"
         });
     }
@@ -134,7 +147,7 @@ while (true)
 
     //input & ui print
     inputs.ReadInputs(stamperSimulator.isExtended, stamperSimulator.isRetracted, clamperSimulator.isExtended, clamperSimulator.isRetracted);
-    if (webStopRequest || webStartRequest || webResetRequest) //check what the web requested and do it instead of the operator
+    if (webStopRequest || webStartRequest || webResetRequest || webClearAlarmsRequest) //check what the web requested and do it instead of the operator
     {
         inputs.emergencyStopButton = webStopRequest;
         webStopRequest = false;
@@ -142,7 +155,15 @@ while (true)
         webStartRequest = false;
         inputs.resetButton = webResetRequest;
         webResetRequest = false;
+        inputs.clearAlarmsButton = webClearAlarmsRequest;
+        webClearAlarmsRequest = false;
     }
+
+    if (inputs.clearAlarmsButton) //this really doesn't belong into the controller, not sure if it belongs here, but didn't know where else to put it; also the button is only  wired up in the webapp and not in the console dashboard
+    {
+        alarmManager.ClearAlarms();
+    }
+
     PrintUI();
 
     //loop control
@@ -217,58 +238,3 @@ void PrintUI()
     Console.SetCursorPosition(0, 0);
     Console.Write(ui.ToString());
 }
-
-/*
-
-//old PrintUI()
-
-void PrintUI ()
-{
-    Console.SetCursorPosition(0, 0);
-
-    Console.WriteLine("========================================");
-    Console.WriteLine("       STAMPING STATION SIMULATOR       ");
-    Console.WriteLine("========================================");
-
-    // Status Header
-    string mode = inputs.manualModeSwitch ? "MANUAL" : "AUTO  ";
-    Console.WriteLine($" MODE:  {mode}                          ");
-    Console.WriteLine($" STATE: {controller.currentState,-20}    "); // -20 pads it with spaces so text doesn't ghost
-    Console.WriteLine($" LIGHT: {(outputs.activeLight ? "ON " : "OFF")}                            ");
-    Console.WriteLine("----------------------------------------");
-
-    // Sensor & Cylinder Status
-    Console.WriteLine(" [ PART SENSOR ]: " + (inputs.partPresentSensor ? "DETECTED" : "EMPTY   "));
-    Console.WriteLine();
-    Console.WriteLine($" [ CLAMP ] Ext Valve: {(outputs.extendClamp ? "ON " : "OFF")} | Ret Valve: {(outputs.retractClamp ? "ON " : "OFF")}");
-    Console.WriteLine($"           Sensor Ext: {(clamperSimulator.isExtended ? "[X]" : "[ ]")} | Sensor Ret: {(clamperSimulator.isRetracted ? "[X]" : "[ ]")}");
-    Console.WriteLine();
-    Console.WriteLine($" [ STAMP ] Ext Valve: {(outputs.extendStamp ? "ON " : "OFF")} | Ret Valve: {(outputs.retractStamp ? "ON " : "OFF")}");
-    Console.WriteLine($"           Sensor Ext: {(stamperSimulator.isExtended ? "[X]" : "[ ]")} | Sensor Ret: {(stamperSimulator.isRetracted ? "[X]" : "[ ]")}");
-
-    Console.WriteLine("----------------------------------------");
-
-    // Controls Menu
-    Console.WriteLine(" CONTROLS:");
-    Console.WriteLine(" [P] Toggle Part Present");
-    Console.WriteLine(" [S] Start Cycle (Auto Mode)");
-    Console.WriteLine(" [R] Reset/Home Machine");
-    Console.WriteLine(" [M] Toggle Auto/Manual Mode");
-    Console.WriteLine();
-    if (inputs.manualModeSwitch)
-    {
-        Console.WriteLine(" MANUAL JOG CONTROLS (Hold Key):       ");
-        Console.WriteLine(" [1] Clamp Down   [2] Clamp Up         ");
-        Console.WriteLine(" [3] Stamp Down   [4] Stamp Up         ");
-    }
-    else
-    {
-        // Print blank lines to overwrite manual controls when switching back to auto
-        Console.WriteLine("                                       ");
-        Console.WriteLine("                                       ");
-        Console.WriteLine("                                       ");
-    }
-}
-
-
-*/

@@ -12,6 +12,7 @@ namespace StampingStationSim
         public bool startButton { get; set; }
         public bool resetButton { get; set; }
         public bool emergencyStopButton { get; set; }
+        public bool clearAlarmsButton { get; set; } //only on the webapp
 
         public bool partPresentSensor { get; private set; }
 
@@ -100,6 +101,7 @@ namespace StampingStationSim
             startButton = false;
             resetButton = false;
             emergencyStopButton = false;
+            clearAlarmsButton = false;
 
             //partPresentSensor not here cuz its a switch
 
