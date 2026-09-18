@@ -34,7 +34,7 @@ namespace StampingStationSim
         /// Adds a new alarm to the local list and also adds it to database.
         /// </summary>
         /// <param name="msg">The alarm message, usually the reason for the alarm.</param>
-        public void AddAlarm(string msg)
+        public async Task AddAlarm(string msg)
         {
             alarms.Insert(0, $"[{DateTime.Now.ToString("HH:mm:ss")}] {msg}");
 
@@ -52,7 +52,7 @@ namespace StampingStationSim
                 };
 
                 db.alarmHistory.Add(newFault);
-                db.SaveChanges();
+                await db.SaveChangesAsync();
             }
         }
 

@@ -46,12 +46,12 @@ namespace StampingStationSim
         /// <param name="outputs">Pneumatics of the station. Cannot be null.</param>
         /// <param name="alarmManager">Used to access the alarm history db table and to log errors. Cannot be null.</param>
         /// <param name="productionManager">Used to access the production history db table and to log good parts. Cannot be null</param>
-        public void Update(Inputs inputs, Outputs outputs, AlarmManager alarmManager, ProductionManager productionManager)
+        public async Task Update(Inputs inputs, Outputs outputs, AlarmManager alarmManager, ProductionManager productionManager)
         {
             if (inputs.emergencyStopButton && currentState != State.Fault)
             {
                 currentState = State.Fault;
-                alarmManager.AddAlarm("FAULT: emergency");
+                await alarmManager.AddAlarm("FAULT: emergency");
             }
             if (!inputs.partPresentSensor)
             {
@@ -65,7 +65,7 @@ namespace StampingStationSim
                 outputs.retractStamp = inputs.stampRetractButton && !inputs.stampExtendButton;
 
                 currentState = State.Fault; //to force the operator to press reset after exiting manual mode
-                alarmManager.AddAlarm("WARNING: press reset");
+                await alarmManager.AddAlarm("WARNING: press reset");
             }
             else
             {
@@ -78,7 +78,7 @@ namespace StampingStationSim
                 if (isWorking && inputs.partPresentSensor == false) //checks if a part hasn't fallen out at a dangerous point
                 {
                     currentState = State.Fault;
-                    alarmManager.AddAlarm("FAULT: part dissapeared");
+                    await alarmManager.AddAlarm("FAULT: part dissapeared");
                 }
 
                 switch (currentState)
@@ -95,14 +95,14 @@ namespace StampingStationSim
                         else if (inputs.startButton && inputs.partPresentSensor && partComplete) //if the part hasn't changed don't start the cycle
                         {
                             currentState = State.Fault;
-                            alarmManager.AddAlarm("FAULT: part already stamped, replace parts!");
+                            await alarmManager.AddAlarm("FAULT: part already stamped, replace parts!");
                         }
                             break;
                     case State.ClampExtending:
                         if (movementTimer.ElapsedMilliseconds >= maxMovementTime)
                         {
                             currentState = State.Fault;
-                            alarmManager.AddAlarm("FAULT: clamp extend timeout");
+                            await alarmManager.AddAlarm("FAULT: clamp extend timeout");
                         }
                         else if (inputs.clampExtendedSensor)
                         {
@@ -124,7 +124,7 @@ namespace StampingStationSim
                         if (movementTimer.ElapsedMilliseconds >= maxMovementTime)
                         {
                             currentState = State.Fault;
-                            alarmManager.AddAlarm("FAULT: stamp extend timeout");
+                            await alarmManager.AddAlarm("FAULT: stamp extend timeout");
                         }
                         else if (inputs.stampExtendedSensor)
                         {
@@ -146,7 +146,7 @@ namespace StampingStationSim
                         if (movementTimer.ElapsedMilliseconds >= maxMovementTime)
                         {
                             currentState = State.Fault;
-                            alarmManager.AddAlarm("FAULT: stamp retract timeout");
+                            await alarmManager.AddAlarm("FAULT: stamp retract timeout");
                         }
                         else if (inputs.stampRetractedSensor)
                         {
@@ -168,7 +168,7 @@ namespace StampingStationSim
                         if (movementTimer.ElapsedMilliseconds >= maxMovementTime)
                         {
                             currentState = State.Fault;
-                            alarmManager.AddAlarm("FAULT: clamp retract timeout");
+                            await alarmManager.AddAlarm("FAULT: clamp retract timeout");
                         }
                         else if (inputs.clampRetractedSensor)
                         {
@@ -182,7 +182,7 @@ namespace StampingStationSim
                         outputs.activeLight = false;
                         if (cycleTimer.ElapsedMilliseconds != 0) //we have to check if the timer hasn't been reset due to a fault
                         {
-                            productionManager.AddGoodPart((int)cycleTimer.ElapsedMilliseconds);
+                            await productionManager.AddGoodPart((int)cycleTimer.ElapsedMilliseconds);
                             partComplete = true;
                         }
                         outputs.ResetAll();

@@ -27,7 +27,7 @@ namespace StampingStationSim
         /// Adds a new part to the database and to the local good parts count.
         /// </summary>
         /// <param name="cycleTime">Says how long it took to create exact part.</param>
-        public void AddGoodPart(int cycleTime)
+        public async Task AddGoodPart(int cycleTime)
         {
             goodPartsCount++;
 
@@ -40,7 +40,7 @@ namespace StampingStationSim
                 };
 
                 db.productionHistory.Add(newPart);
-                db.SaveChanges();
+                await db.SaveChangesAsync();
             }
         }
     }

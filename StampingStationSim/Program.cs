@@ -10,13 +10,24 @@ PneumaticCylinder clamperSimulator = new PneumaticCylinder();
 AlarmManager alarmManager = new AlarmManager();
 ProductionManager productionManager = new ProductionManager();
 
+CancellationTokenSource cts = new CancellationTokenSource();
+
+Console.CancelKeyPress += (sender, e) =>
+{
+    e.Cancel = true; //this tells the OS to not kill the app yet
+    cts.Cancel();
+
+    Console.Clear();
+    Console.WriteLine("Shutting down...");
+};
+
+#region THREAD C (API stuff)
 //helpers that "push the buttons instead of the operator"
 bool webStartRequest = false;
 bool webResetRequest = false;
 bool webStopRequest = false;
 bool webClearAlarmsRequest = false;
 
-#region THREAD C (API stuff)
 var builder = WebApplication.CreateBuilder(args);
 builder.Logging.ClearProviders(); //silents all the logs that the API is sending to the console
 var app = builder.Build();
@@ -109,30 +120,41 @@ Console.CursorVisible = false; // hides the blinking cursor for a cleaner look
 /// <summary>
 /// The main loop controlling physics running on a separate thread to avoid being held up by other stuff to stay safe.
 /// </summary>
-Task physics = Task.Run(() =>
+Task physics = Task.Run(async () =>
 {
     Stopwatch timer = new Stopwatch();
     int loopTime = 100; //ms //in real world probably less but we dont care here
 
-    while(true)
+    try
     {
-        timer.Restart();
-
-        //machine
-        controller.Update(inputs, outputs, alarmManager, productionManager);
-        outputs.InterlockSafety();
-
-        //simulation
-        stamperSimulator.Update(outputs.extendStamp, outputs.retractStamp);
-        clamperSimulator.Update(outputs.extendClamp, outputs.retractClamp);
-
-        //loop control
-        timer.Stop();
-        int remainingTime = loopTime - (int)timer.ElapsedMilliseconds;
-        if (remainingTime > 0)
+        while(!cts.Token.IsCancellationRequested)
         {
-            Thread.Sleep(remainingTime);
+            timer.Restart();
+
+            //machine
+            await controller.Update(inputs, outputs, alarmManager, productionManager);
+            outputs.InterlockSafety();
+
+            //simulation
+            stamperSimulator.Update(outputs.extendStamp, outputs.retractStamp);
+            clamperSimulator.Update(outputs.extendClamp, outputs.retractClamp);
+
+            //loop control
+            timer.Stop();
+            int remainingTime = loopTime - (int)timer.ElapsedMilliseconds;
+            if (remainingTime > 0)
+            {
+                await Task.Delay(remainingTime, cts.Token);
+            }
         }
+    }
+    catch (TaskCanceledException)
+    {
+        outputs.extendClamp = false;
+        outputs.retractClamp = false;
+        outputs.extendStamp = false;
+        outputs.retractStamp = false;
+        outputs.activeLight = false;
     }
 });
 
@@ -141,38 +163,46 @@ Task physics = Task.Run(() =>
 /// </summary>
 Stopwatch uiTimer = new Stopwatch();
 int uiLoopTime = 250; //refreshes 4 times a sec
-while (true)
+try
 {
-    uiTimer.Restart();
-
-    //input & ui print
-    inputs.ReadInputs(stamperSimulator.isExtended, stamperSimulator.isRetracted, clamperSimulator.isExtended, clamperSimulator.isRetracted);
-    if (webStopRequest || webStartRequest || webResetRequest || webClearAlarmsRequest) //check what the web requested and do it instead of the operator
+    while (!cts.Token.IsCancellationRequested)
     {
-        inputs.emergencyStopButton = webStopRequest;
-        webStopRequest = false;
-        inputs.startButton = webStartRequest;
-        webStartRequest = false;
-        inputs.resetButton = webResetRequest;
-        webResetRequest = false;
-        inputs.clearAlarmsButton = webClearAlarmsRequest;
-        webClearAlarmsRequest = false;
-    }
+        uiTimer.Restart();
 
-    if (inputs.clearAlarmsButton) //this really doesn't belong into the controller, not sure if it belongs here, but didn't know where else to put it; also the button is only  wired up in the webapp and not in the console dashboard
-    {
-        alarmManager.ClearAlarms();
-    }
+        //input & ui print
+        inputs.ReadInputs(stamperSimulator.isExtended, stamperSimulator.isRetracted, clamperSimulator.isExtended, clamperSimulator.isRetracted);
+        if (webStopRequest || webStartRequest || webResetRequest || webClearAlarmsRequest) //check what the web requested and do it instead of the operator
+        {
+            inputs.emergencyStopButton = webStopRequest;
+            webStopRequest = false;
+            inputs.startButton = webStartRequest;
+            webStartRequest = false;
+            inputs.resetButton = webResetRequest;
+            webResetRequest = false;
+            inputs.clearAlarmsButton = webClearAlarmsRequest;
+            webClearAlarmsRequest = false;
+        }
 
-    PrintUI();
+        if (inputs.clearAlarmsButton) //this really doesn't belong into the controller, not sure if it belongs here, but didn't know where else to put it; also the button is only  wired up in the webapp and not in the console dashboard
+        {
+            alarmManager.ClearAlarms();
+        }
 
-    //loop control
-    uiTimer.Stop();
-    int remainingTime = uiLoopTime - (int)uiTimer.ElapsedMilliseconds;
-    if (remainingTime > 0)
-    {
-        Thread.Sleep(remainingTime);
+        PrintUI();
+
+        //loop control
+        uiTimer.Stop();
+        int remainingTime = uiLoopTime - (int)uiTimer.ElapsedMilliseconds;
+        if (remainingTime > 0)
+        {
+            await Task.Delay(remainingTime, cts.Token);
+        }
     }
+}
+catch(TaskCanceledException)
+{
+    Console.CursorVisible = true;
+    Console.Clear();
 }
 
 /// <summary>
